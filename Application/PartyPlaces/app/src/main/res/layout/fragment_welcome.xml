@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.WelcomeFragment"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textSize="40dp"
+        />
+
+    <Button
+        android:id="@+id/welcome_button_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_button_login"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/purple_200"/>
+
+    <Button
+        android:id="@+id/welcome_button_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_button_register"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/cardview_shadow_start_color"/>
+
+</LinearLayout>

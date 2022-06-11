@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Party Places</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="welcome_fragment_label">Welcome</string>
+    <string name="login_fragment_label">Login</string>
+    <string name="register_fragment_label">Register</string>
+    <string name="home_fragment_label">Home</string>
+    <string name="welcome_button_login">Login</string>
+    <string name="welcome_button_register">Register</string>
+    <string name="login_button_register">Create an account</string>
+    <string name="login_button_login">Login</string>
+    <string name="editText_hint_username">Username</string>
+    <string name="editText_hint_password">Password</string>
+    <string name="maps_fragment_label">Map</string>
+    <string name="editText_hint_email">Email</string>
+    <string name="editText_hint_last_name">Last name</string>
+    <string name="editText_hint_first_name">First name</string>
+    <string name="register_button_login">Already have an account?</string>
+    <string name="register_button_register">Sign up</string>
+    <string name="menu_map_title">Map</string>
+    <string name="menu_map_tooltip">Show map</string>
+</resources>
