@@ -69,5 +69,20 @@
         android:name="com.mosis.partyplaces.ui.MapsFragment"
         android:label="@string/maps_fragment_label"
         tools:layout="@layout/fragment_maps"/>
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.mosis.partyplaces.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
+    <fragment
+        android:id="@+id/rankFragment"
+        android:name="com.mosis.partyplaces.RankFragment"
+        android:label="fragment_rank"
+        tools:layout="@layout/fragment_rank" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.mosis.partyplaces.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>
