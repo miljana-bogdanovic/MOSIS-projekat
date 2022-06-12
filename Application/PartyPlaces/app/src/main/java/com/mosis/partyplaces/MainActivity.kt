@@ -5,20 +5,24 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.mosis.partyplaces.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var navBar : BottomNavigationView
+    private lateinit var navBar: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,46 @@ class MainActivity : AppCompatActivity() {
                 navBar.visibility = View.VISIBLE
             }
         }
+
+        navBar.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.ic_map -> {
+                    when (navController.currentDestination?.id) {
+                        R.id.friendsFragment -> navController.navigate(R.id.action_Friends_To_Maps)
+                        R.id.rankFragment -> navController.navigate(R.id.action_Rank_To_Maps)
+                        R.id.profileFragment -> navController.navigate(R.id.action_Profile_To_Maps)
+                    }
+                    true
+                }
+                R.id.ic_friends -> {
+                    when (navController.currentDestination?.id) {
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_to_Friends)
+                        R.id.rankFragment -> navController.navigate(R.id.action_Rank_to_Friends)
+                        R.id.profileFragment -> navController.navigate(R.id.action_Profile_to_Friends)
+                    }
+                    true
+                }
+                R.id.ic_rank -> {
+                    when (navController.currentDestination?.id) {
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_to_Rank)
+                        R.id.friendsFragment -> navController.navigate(R.id.action_Friends_to_Rank)
+                        R.id.profileFragment -> navController.navigate(R.id.action_Profile_To_Rank)
+                    }
+                    true
+                }
+                R.id.ic_profile -> {
+                    when (navController.currentDestination?.id) {
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_to_Profile)
+                        R.id.friendsFragment -> navController.navigate(R.id.action_Friends_to_Profile)
+                        R.id.rankFragment -> navController.navigate(R.id.action_Rank_to_Profile)
+                    }
+                    true
+                }
+
+                else -> super.onOptionsItemSelected(item)
+            }
+
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -55,16 +99,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.action_show_map -> {
-                when(navController.currentDestination?.id){
+                when (navController.currentDestination?.id) {
                     R.id.HomeFragment -> navController.navigate(R.id.action_HomeFragment_to_MapFragment)
                 }
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+
     }
-
-
 }
