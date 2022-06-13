@@ -4,22 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import com.mosis.partyplaces.data.User
 import com.mosis.partyplaces.databinding.ActivityMainBinding
 
 
@@ -87,11 +78,15 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+                R.id.ic_event -> {
+                    true
+                }
 
                 else -> super.onOptionsItemSelected(item)
             }
 
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -117,4 +112,5 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }
