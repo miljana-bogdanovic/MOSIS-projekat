@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
@@ -48,10 +49,12 @@ class LoadingFragment : Fragment() {
             .get()
             .addOnSuccessListener {
                 if(it.documents.isNotEmpty() && it.documents[0].data!! == user.toHashMap()) {
+                    Toast.makeText(requireContext(), "NOOOOO HERE I AM", Toast.LENGTH_SHORT).show()
                     loggedUser.user = it.documents[0].toObject(User::class.java)
                     graph.setStartDestination(R.id.HomeFragment)
                 }
                 else {
+                    Toast.makeText(requireContext(), "HERE I AM", Toast.LENGTH_SHORT).show()
                     requireActivity().getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().clear().commit()
                     graph.setStartDestination(R.id.WelcomeFragment)
                 }

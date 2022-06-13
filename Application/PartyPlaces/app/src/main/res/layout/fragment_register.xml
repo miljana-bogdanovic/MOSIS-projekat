@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.LoginFragment"
     android:orientation="vertical"
     android:padding="20dp"
     android:gravity="center">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="20dp"
+        app:strokeColor="@color/purple_200"
+        app:strokeWidth="2dp"
+        android:layout_gravity="center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/register_imageView_profile_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:contextClickable="true"
+                android:pointerIcon="hand"
+                android:scaleType="centerCrop"
+                android:translationZ="2dp"/>
+
+            <Button
+                android:id="@+id/register_button_add_image"
+                android:clickable="false"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:translationZ="1dp"
+                android:background="@drawable/ic_add_image"/>
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <EditText
         android:id="@+id/register_editText_first_name"

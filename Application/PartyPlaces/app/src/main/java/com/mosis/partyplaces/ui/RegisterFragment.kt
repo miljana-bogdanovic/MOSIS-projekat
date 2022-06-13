@@ -1,6 +1,8 @@
 package com.mosis.partyplaces.ui
 
+import android.app.Activity
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnFailureListener
@@ -31,6 +36,15 @@ import java.lang.Exception
 class RegisterFragment : Fragment(), OnFailureListener {
 
     private val db = Firebase.firestore
+    private lateinit var photoIV: ImageView
+    private lateinit var firstNameET: EditText
+    private lateinit var lastNameET: EditText
+    private lateinit var emailET: EditText
+    private lateinit var usernameET: EditText
+    private lateinit var passwordET: EditText
+    private lateinit var addImageButton: Button
+    private lateinit var registerButton: Button
+    private lateinit var loginButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +57,17 @@ class RegisterFragment : Fragment(), OnFailureListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val firstNameET = requireView().findViewById<EditText>(R.id.register_editText_first_name)
-        val lastNameET = requireView().findViewById<EditText>(R.id.register_editText_last_name)
-        val emailET = requireView().findViewById<EditText>(R.id.register_editText_email)
-        val usernameET = requireView().findViewById<EditText>(R.id.register_editText_username)
-        val passwordET = requireView().findViewById<EditText>(R.id.register_editText_password)
+        photoIV = requireView().findViewById<ImageView>(R.id.register_imageView_profile_photo)
+        firstNameET = requireView().findViewById<EditText>(R.id.register_editText_first_name)
+        lastNameET = requireView().findViewById<EditText>(R.id.register_editText_last_name)
+        emailET = requireView().findViewById<EditText>(R.id.register_editText_email)
+        usernameET = requireView().findViewById<EditText>(R.id.register_editText_username)
+        passwordET = requireView().findViewById<EditText>(R.id.register_editText_password)
 
-        val registerButton = requireView().findViewById<Button>(R.id.register_button_register)
+        addImageButton = requireView().findViewById<Button>(R.id.register_button_add_image)
+        registerButton = requireView().findViewById<Button>(R.id.register_button_register)
+        loginButton = requireView().findViewById<Button>(R.id.register_button_login)
+
         registerButton.apply{
             isEnabled = false
             setOnClickListener{
@@ -58,24 +76,16 @@ class RegisterFragment : Fragment(), OnFailureListener {
             }
         }
 
-        val loginButton = requireView().findViewById<Button>(R.id.register_button_login)
         loginButton.setOnClickListener{
             findNavController().navigate(R.id.action_RegisterFragment_to_LoginFragment)
         }
 
         val listener = object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 registerButton.isEnabled = firstNameET.text.isNotBlank() && lastNameET.text.isNotBlank() && emailET.text.isNotBlank() && usernameET.text.isNotBlank() && passwordET.text.isNotBlank()
             }
-
         }
 
         firstNameET.addTextChangedListener(listener)
@@ -83,6 +93,21 @@ class RegisterFragment : Fragment(), OnFailureListener {
         emailET.addTextChangedListener(listener)
         usernameET.addTextChangedListener(listener)
         passwordET.addTextChangedListener(listener)
+
+        photoIV.setOnClickListener{
+            val i = Intent()
+            i.type = "image/*"
+            i.action = Intent.ACTION_GET_CONTENT
+
+            getResult.launch(i)
+        }
+    }
+
+    private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK){
+            photoIV.setImageURI(it.data?.data!!)
+            addImageButton.isVisible = false
+        }
     }
 
     private fun register(u: User, savedInstanceState: Bundle?){
