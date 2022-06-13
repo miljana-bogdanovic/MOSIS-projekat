@@ -48,17 +48,20 @@ class LoadingFragment : Fragment() {
             .whereEqualTo("username", user.username)
             .get()
             .addOnSuccessListener {
-                if(it.documents.isNotEmpty() && it.documents[0].data!! == user.toHashMap()) {
-                    Toast.makeText(requireContext(), "NOOOOO HERE I AM", Toast.LENGTH_SHORT).show()
-                    loggedUser.user = it.documents[0].toObject(User::class.java)
-                    graph.setStartDestination(R.id.HomeFragment)
+                if(it.documents.isNotEmpty() && it.documents[0].data!!["password"] == user.password) {
+                    loggedUser.login(requireActivity(), it.documents[0].toObject(User::class.java) as User) {
+                        graph.setStartDestination(R.id.HomeFragment)
+                        findNavController().setGraph(graph, savedInstanceState)
+                    }
                 }
                 else {
-                    Toast.makeText(requireContext(), "HERE I AM", Toast.LENGTH_SHORT).show()
-                    requireActivity().getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().clear().commit()
-                    graph.setStartDestination(R.id.WelcomeFragment)
+                    Toast.makeText(requireContext(), "Credentials changed!", Toast.LENGTH_SHORT).show()
+                    loggedUser.logout(requireActivity())
+                    {
+                        graph.setStartDestination(R.id.WelcomeFragment)
+                        findNavController().setGraph(graph, savedInstanceState)
+                    }
                 }
-                findNavController().setGraph(graph, savedInstanceState)
             }
     }
 }

@@ -10,18 +10,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
 import com.mosis.partyplaces.R
 import com.mosis.partyplaces.data.User
+import java.io.File
 
 class LoginFragment : Fragment() {
     private val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
     private val loggedUser: LoggedUserViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -74,14 +78,12 @@ class LoginFragment : Fragment() {
             .addOnSuccessListener {
                 if(it.documents.isNotEmpty())
                 {
-                    loggedUser.user = it.documents[0].toObject(User::class.java)
-                    requireActivity().getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().apply{
-                        putString("value", Gson().toJson(loggedUser.user, User::class.java).toString())
-                        commit()
+                    loggedUser.login(requireActivity(), it.documents[0].toObject(User::class.java)!!)
+                    {
+                        val g = findNavController().navInflater.inflate(R.navigation.nav_graph)
+                        g.setStartDestination(R.id.HomeFragment)
+                        findNavController().setGraph(g, savedInstanceState)
                     }
-                    val g = findNavController().navInflater.inflate(R.navigation.nav_graph)
-                    g.setStartDestination(R.id.HomeFragment)
-                    findNavController().setGraph(g, savedInstanceState)
                 }
                 else
                     Toast.makeText(requireContext(), "Wrong credentials!", Toast.LENGTH_SHORT).show()

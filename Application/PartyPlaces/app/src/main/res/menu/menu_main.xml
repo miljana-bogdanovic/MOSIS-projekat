@@ -5,10 +5,17 @@
     android:layout_height="match_parent">
 
     <item
-        android:id="@+id/action_show_map"
-        android:icon="@android:drawable/ic_dialog_map"
-        android:title="@string/menu_map_title"
-        android:tooltipText="@string/menu_map_tooltip"
-        app:showAsAction="ifRoom"
-        />
+        android:id="@+id/action_notifications"
+        android:icon="@drawable/ic_notification"
+        android:title="@string/menu_notifications_title"
+        android:tooltipText="@string/menu_notifications_tooltip"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_sign_out"
+        android:icon="@drawable/ic_sign_out"
+        android:title="@string/menu_sign_out_title"
+        android:tooltipText="@string/menu_sign_out_tooltip"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
 </menu>

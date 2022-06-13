@@ -24,4 +24,9 @@
     <string name="menu_map_tooltip">Show map</string>
     <string name="loading_fragment_label">Loading</string>
     <string name="loading_fragment_text">Loading...</string>
+    <string name="menu_sign_out_title">Sign out</string>
+    <string name="menu_sign_out_tooltip">Sign out</string>
+    <string name="menu_notifications_title">Notifications</string>
+    <string name="menu_notifications_tooltip">Notifications</string>
+    <string name="pick_image_input_method">Select image source</string>
 </resources>

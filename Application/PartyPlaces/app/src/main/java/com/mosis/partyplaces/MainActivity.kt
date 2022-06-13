@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -12,6 +14,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mosis.partyplaces.databinding.ActivityMainBinding
+import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,11 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navBar: BottomNavigationView
+    private val loggedUser: LoggedUserViewModel by viewModels()
+    private var _menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().clear().commit()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -35,6 +39,13 @@ class MainActivity : AppCompatActivity() {
         navBar = findViewById(R.id.bottom_navigation)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        loggedUser.getMutable().observe(this) { u ->
+            if(u != null) {
+                _menu?.findItem(R.id.action_sign_out)?.isVisible = true
+                _menu?.findItem(R.id.action_notifications)?.isVisible = true
+            }
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.LoginFragment || destination.id == R.id.WelcomeFragment || destination.id == R.id.RegisterFragment) {
@@ -98,14 +109,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_main, menu)
+        _menu = menu
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_show_map -> {
-                when (navController.currentDestination?.id) {
-                    R.id.HomeFragment -> navController.navigate(R.id.action_HomeFragment_to_MapFragment)
+            R.id.action_notifications -> {
+                Toast.makeText(this, "Notifications!", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.action_sign_out -> {
+                loggedUser.logout(this)
+                {
+                    var graph = navController.navInflater.inflate(R.navigation.nav_graph)
+                    graph.setStartDestination(R.id.LoadingFragment)
+                    navController.setGraph(graph, null)
                 }
                 return true
             }
