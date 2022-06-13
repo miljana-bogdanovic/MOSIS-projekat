@@ -3,7 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/WelcomeFragment">
+    app:startDestination="@id/LoadingFragment">
+
+    <fragment
+        android:id="@+id/LoadingFragment"
+        android:name="com.mosis.partyplaces.ui.LoadingFragment"
+        android:label="@string/loading_fragment_label"
+        tools:layout="@layout/fragment_loading">
+
+        <action
+            android:id="@+id/action_LoadingFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment"/>
+
+        <action
+            android:id="@+id/action_LoadingFragment_to_WelcomeFragment"
+            app:destination="@id/WelcomeFragment"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/WelcomeFragment"
@@ -18,6 +34,10 @@
         <action
             android:id="@+id/action_WelcomeFragment_to_RegisterFragment"
             app:destination="@id/RegisterFragment" />
+
+        <action
+            android:id="@+id/action_WelcomeFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment"/>
 
     </fragment>
 

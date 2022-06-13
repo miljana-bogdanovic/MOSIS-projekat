@@ -1,8 +1,11 @@
 package com.mosis.partyplaces.ui
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +14,23 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.mosis.partyplaces.R
+import com.mosis.partyplaces.data.User
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import java.lang.Exception
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(), OnFailureListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +53,8 @@ class RegisterFragment : Fragment() {
         registerButton.apply{
             isEnabled = false
             setOnClickListener{
-                register(firstNameET.text.toString(), lastNameET.text.toString(), emailET.text.toString(), usernameET.text.toString(), passwordET.text.toString())
+                val u = User(firstNameET.text.toString(), lastNameET.text.toString(), emailET.text.toString(), usernameET.text.toString(), passwordET.text.toString())
+                register(u, savedInstanceState)
             }
         }
 
@@ -72,8 +85,48 @@ class RegisterFragment : Fragment() {
         passwordET.addTextChangedListener(listener)
     }
 
-    private fun register(firstName: String, lastName:String, email:String, username: String, password: String){
-        Toast.makeText(requireContext(), "Register $firstName $lastName $email $username $password", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.action_RegisterFragment_to_HomeFragment)
+    private fun register(u: User, savedInstanceState: Bundle?){
+        Log.d("REGISTER", u.toString())
+        db.collection("users")
+            .whereEqualTo("email", u.email)
+            .get()
+            .addOnSuccessListener { qs ->
+                if(qs.documents.isEmpty())
+                {
+                    db.collection("users")
+                        .whereEqualTo("username", u.username)
+                        .get()
+                        .addOnSuccessListener { qs2 ->
+                            if(qs2.documents.isEmpty())
+                                createAccount(u, savedInstanceState)
+                            else
+                                Toast.makeText(requireContext(), "Username is already used!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener(this)
+                }
+                else
+                    Toast.makeText(requireContext(), "Email is already used!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener(this)
+    }
+
+    private fun createAccount(u:User, savedInstanceState: Bundle?):Unit{
+        db.collection("users")
+            .add(u.toHashMap())
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Account created successfully!", Toast.LENGTH_SHORT).show()
+                requireActivity().getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().apply {
+                    putString("value", Gson().toJson(u, User::class.java).toString())
+                    commit()
+                }
+                val g = findNavController().navInflater.inflate(R.navigation.nav_graph)
+                g.setStartDestination(R.id.HomeFragment)
+                findNavController().setGraph(g, savedInstanceState)
+            }
+            .addOnFailureListener(this)
+    }
+
+    override fun onFailure(p0: Exception) {
+        Toast.makeText(requireContext(), "Error occurred ${p0.toString()}", Toast.LENGTH_LONG).show()
     }
 }

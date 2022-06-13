@@ -1,5 +1,6 @@
 package com.mosis.partyplaces.ui
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,14 +11,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
 import com.mosis.partyplaces.R
+import com.mosis.partyplaces.data.User
 
 class LoginFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val db = Firebase.firestore
+    private val loggedUser: LoggedUserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +43,7 @@ class LoginFragment : Fragment() {
         loginButton.apply {
             isEnabled = false
             setOnClickListener {
-                login(usernameET.text.toString(), passwordET.text.toString())
+                login(usernameET.text.toString(), passwordET.text.toString(), savedInstanceState)
             }
         }
 
@@ -61,8 +66,25 @@ class LoginFragment : Fragment() {
         passwordET.addTextChangedListener(listener)
     }
 
-    private fun login(username: String, password: String) {
-        Toast.makeText(requireContext(), "Login $username $password !", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+    private fun login(username: String, password: String, savedInstanceState: Bundle?) {
+        db.collection("users")
+            .whereEqualTo("username", username)
+            .whereEqualTo("password", password)
+            .get()
+            .addOnSuccessListener {
+                if(it.documents.isNotEmpty())
+                {
+                    loggedUser.user = it.documents[0].toObject(User::class.java)
+                    requireActivity().getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().apply{
+                        putString("value", Gson().toJson(loggedUser.user, User::class.java).toString())
+                        commit()
+                    }
+                    val g = findNavController().navInflater.inflate(R.navigation.nav_graph)
+                    g.setStartDestination(R.id.HomeFragment)
+                    findNavController().setGraph(g, savedInstanceState)
+                }
+                else
+                    Toast.makeText(requireContext(), "Wrong credentials!", Toast.LENGTH_SHORT).show()
+            }
     }
 }

@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.HomeFragment">
+    tools:context=".ui.LoadingFragment">
 
     <TextView
-        android:id="@+id/home_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
+        android:text="@string/loading_fragment_text"
         android:textAlignment="center"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="50dp"/>
 
 </FrameLayout>
