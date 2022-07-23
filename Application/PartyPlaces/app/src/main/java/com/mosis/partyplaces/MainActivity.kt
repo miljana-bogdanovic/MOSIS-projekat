@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.friendsFragment -> navController.navigate(R.id.action_Friends_To_Maps)
                         R.id.rankFragment -> navController.navigate(R.id.action_Rank_To_Maps)
                         R.id.profileFragment -> navController.navigate(R.id.action_Profile_To_Maps)
+                        R.id.HomeFragment -> navController.navigate(R.id.action_HomeFragment_to_MapFragment)
                     }
                     true
                 }
