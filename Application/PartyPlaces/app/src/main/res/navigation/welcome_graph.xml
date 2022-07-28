@@ -13,11 +13,13 @@
 
         <action
             android:id="@+id/action_WelcomeFragment_to_LoginFragment"
-            app:destination="@id/LoginFragment"/>
+            app:destination="@id/LoginFragment"
+            app:popUpTo="@id/LoginFragment"/>
 
         <action
             android:id="@+id/action_WelcomeFragment_to_RegisterFragment"
-            app:destination="@id/RegisterFragment"/>
+            app:destination="@id/RegisterFragment"
+            app:popUpTo="@id/RegisterFragment"/>
 
     </fragment>
 
@@ -30,8 +32,8 @@
         <action
             android:id="@+id/action_LoginFragment_to_RegisterFragment"
             app:destination="@id/RegisterFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/LoginFragment"/>
+            app:popUpTo="@id/RegisterFragment"
+            app:popUpToInclusive="true"/>
 
     </fragment>
 
@@ -44,8 +46,8 @@
         <action
             android:id="@+id/action_RegisterFragment_to_LoginFragment"
             app:destination="@id/LoginFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/RegisterFragment"/>
+            app:popUpTo="@id/LoginFragment"
+            app:popUpToInclusive="true"/>
 
     </fragment>
 

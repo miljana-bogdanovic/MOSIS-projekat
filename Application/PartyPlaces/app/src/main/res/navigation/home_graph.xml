@@ -41,19 +41,19 @@
             android:id="@+id/action_Friends_To_Maps"
             app:destination="@id/MapsFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/FriendsFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
         <action
             android:id="@+id/action_Friends_to_Rank"
             app:destination="@id/RankFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/FriendsFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
         <action
             android:id="@+id/action_Friends_to_Profile"
             app:destination="@id/ProfileFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/FriendsFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
     </fragment>
 
@@ -67,19 +67,19 @@
             android:id="@+id/action_Rank_To_Maps"
             app:destination="@id/MapsFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/RankFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
         <action
             android:id="@+id/action_Rank_to_Friends"
             app:destination="@id/FriendsFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/RankFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
         <action
             android:id="@+id/action_Rank_to_Profile"
             app:destination="@id/ProfileFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/RankFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
     </fragment>
 
@@ -93,19 +93,19 @@
             android:id="@+id/action_Profile_To_Maps"
             app:destination="@id/MapsFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/ProfileFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
         <action
             android:id="@+id/action_Profile_to_Friends"
             app:destination="@id/FriendsFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/ProfileFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
         <action
             android:id="@+id/action_Profile_To_Rank"
             app:destination="@id/RankFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/ProfileFragment"/>
+            app:popUpTo="@id/MapsFragment"/>
 
     </fragment>
 

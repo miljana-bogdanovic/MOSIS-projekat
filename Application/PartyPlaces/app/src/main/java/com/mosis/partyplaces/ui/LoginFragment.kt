@@ -1,6 +1,5 @@
 package com.mosis.partyplaces.ui
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
@@ -14,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -84,7 +82,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun login(username: String, password: String, savedInstanceState: Bundle?) {
-        Log.d("Sing in", username + password)
         auth.signInWithEmailAndPassword(username, password)
             .addOnSuccessListener { res ->
                 authenticationSuccess(res, savedInstanceState)
@@ -97,7 +94,6 @@ class LoginFragment : Fragment() {
 
     private fun authenticationSuccess(res : AuthResult, savedInstanceState: Bundle?) {
         if (res.user != null) {
-            Log.d("LOGGGGGGGGGGGGGGGGGGGGG", res.toString())
             db.collection("users")
                 .whereEqualTo("uuid", res.user!!.uid)
                 .get()
@@ -114,12 +110,10 @@ class LoginFragment : Fragment() {
 
     private fun databaseUserResultSuccess(res : QuerySnapshot, savedInstanceState: Bundle?){
         if (res.documents.isNotEmpty()) {
-            Log.d("LOGGGGGG", res.documents[0].toString())
             loggedUser.login(res.documents[0].toObject(User::class.java)!!)
             {
                 progressDialog.hide()
-                findNavController().setGraph(R.navigation.home_graph)
-                (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+                findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
             }
             return
         }

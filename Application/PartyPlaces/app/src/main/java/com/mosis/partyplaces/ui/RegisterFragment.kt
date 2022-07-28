@@ -26,6 +26,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -253,8 +254,7 @@ class RegisterFragment : Fragment() {
                 "Account created successfully!",
                 Toast.LENGTH_SHORT
             ).show()
-            findNavController().setGraph(R.navigation.home_graph)
-            (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
         }
     }
 

@@ -18,6 +18,8 @@ class WelcomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_welcome, container, false)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        //return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

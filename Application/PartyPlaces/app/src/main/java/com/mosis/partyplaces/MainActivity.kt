@@ -132,7 +132,6 @@ class MainActivity : AppCompatActivity() {
                 loggedUser.logout()
                 {
                     navController.setGraph(R.navigation.welcome_graph)
-                    supportActionBar!!.setDisplayHomeAsUpEnabled(false)
                 }
                 return true
             }

@@ -31,11 +31,9 @@ class LoadingFragment : Fragment() {
 
         // If User is in shared preferences
         loggedUser.checkSharedPreferences(requireActivity(), fun() {
-            findNavController().setGraph(R.navigation.home_graph)
-            //(activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
         }, fun(){
-            findNavController().setGraph(R.navigation.welcome_graph)
-            //(activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            findNavController().setGraph(R.navigation.welcome_graph, savedInstanceState)
         })
     }
 }
