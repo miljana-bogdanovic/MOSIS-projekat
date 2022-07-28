@@ -3,14 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/fullscreenBackgroundColor"
+    android:theme="@style/ThemeOverlay.PartyPlaces.FullscreenContainer"
     tools:context=".ui.LoadingFragment">
 
     <TextView
+        android:id="@+id/loading_fragment_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/loading_fragment_text"
-        android:textAlignment="center"
         android:gravity="center"
-        android:textSize="50dp"/>
+        android:keepScreenOn="true"
+        android:text="@string/loading_fragment_text"
+        android:textColor="?attr/fullscreenTextColor"
+        android:textSize="50sp"
+        android:textStyle="bold" />
 
 </FrameLayout>

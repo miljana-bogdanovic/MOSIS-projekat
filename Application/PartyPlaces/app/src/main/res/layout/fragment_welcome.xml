@@ -35,6 +35,6 @@
         android:text="@string/welcome_button_register"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:backgroundTint="@color/cardview_shadow_start_color"/>
+        android:backgroundTint="@color/gray"/>
 
 </LinearLayout>

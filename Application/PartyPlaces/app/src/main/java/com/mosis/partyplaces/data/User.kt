@@ -1,13 +1,45 @@
 package com.mosis.partyplaces.data
 
-import android.net.Uri
-import androidx.lifecycle.ViewModel
-import com.google.firebase.storage.StorageReference
+import androidx.room.Entity
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-data class User(var firstName: String = "", var lastName: String = "", var email: String = "", var username: String = "", var password: String = "", var imageUri: String? = null, var downloadUri: String? = null, var lat:Double = 0.0, var lon:Double = 0.0){
+@Entity(tableName = "user")
+data class User(
+    @SerializedName("firstName")
+    @Expose
+    var firstName: String = "",
+    @SerializedName("lastName")
+    @Expose
+    var lastName: String = "",
+    @SerializedName("email")
+    @Expose
+    var email: String = "",
+    @SerializedName("username")
+    @Expose
+    var username: String = "",
+    @SerializedName("password")
+    @Expose
+    var password: String = "",
+    @SerializedName("imageUri")
+    @Expose
+    var imageUri: String? = null,
+    @SerializedName("downloadUri")
+    @Expose
+    var downloadUri: String? = null,
+    @SerializedName("lat")
+    @Expose
+    var lat:Double = 0.0,
+    @SerializedName("lon")
+    @Expose
+    var lon:Double = 0.0,
+    @SerializedName("uuid")
+    @Expose
+    var uuid:String? = null) : JSONConvertable {
 
     fun toHashMap():Map<String, *> {
         return mapOf(
+            "uuid" to uuid,
             "firstName" to firstName,
             "lastName" to lastName,
             "email" to email,

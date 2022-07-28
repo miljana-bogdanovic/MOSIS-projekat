@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.LoginFragment"
+    tools:context=".ui.RegisterFragment"
     android:orientation="vertical"
     android:padding="20dp"
     android:gravity="center">
@@ -107,7 +107,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@android:color/transparent"
-        android:textColor="@color/cardview_dark_background"
+        android:textColor="@color/gray"
         android:textSize="10dp"/>
 
 </LinearLayout>

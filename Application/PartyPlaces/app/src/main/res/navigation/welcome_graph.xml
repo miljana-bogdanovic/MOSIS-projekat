@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/welcome_graph"
+    app:startDestination="@id/WelcomeFragment">
+
+    <fragment
+        android:id="@+id/WelcomeFragment"
+        android:name="com.mosis.partyplaces.ui.WelcomeFragment"
+        android:label="@string/welcome_fragment_label"
+        tools:layout="@layout/fragment_welcome">
+
+        <action
+            android:id="@+id/action_WelcomeFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment"/>
+
+        <action
+            android:id="@+id/action_WelcomeFragment_to_RegisterFragment"
+            app:destination="@id/RegisterFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.mosis.partyplaces.ui.LoginFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_LoginFragment_to_RegisterFragment"
+            app:destination="@id/RegisterFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/LoginFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/RegisterFragment"
+        android:name="com.mosis.partyplaces.ui.RegisterFragment"
+        android:label="@string/register_fragment_label"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/action_RegisterFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/RegisterFragment"/>
+
+    </fragment>
+
+</navigation>

@@ -10,13 +10,13 @@
     android:gravity="center">
 
     <EditText
-        android:id="@+id/login_editText_username"
+        android:id="@+id/login_editText_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:inputType="text"
-        android:hint="@string/editText_hint_username"/>
+        android:hint="@string/editText_hint_email"/>
 
     <EditText
         android:id="@+id/login_editText_password"
@@ -43,6 +43,6 @@
         android:text="@string/login_button_register"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:backgroundTint="@color/cardview_shadow_start_color"/>
+        android:backgroundTint="@color/gray"/>
 
 </LinearLayout>

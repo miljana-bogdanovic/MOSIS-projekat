@@ -2,15 +2,12 @@ package com.mosis.partyplaces.ui
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context.MODE_PRIVATE
-import android.content.DialogInterface
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,41 +15,41 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageMetadata
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
-import com.google.gson.Gson
 import com.mosis.partyplaces.R
 import com.mosis.partyplaces.data.User
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
-import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.random.Random.Default.nextInt
 
-class RegisterFragment : Fragment(), OnFailureListener {
+class RegisterFragment : Fragment() {
 
     private val db = Firebase.firestore
+    private val auth = FirebaseAuth.getInstance()
     private lateinit var photoIV: ImageView
     private lateinit var firstNameET: EditText
     private lateinit var lastNameET: EditText
@@ -62,8 +59,9 @@ class RegisterFragment : Fragment(), OnFailureListener {
     private lateinit var addImageButton: Button
     private lateinit var registerButton: Button
     private lateinit var loginButton: Button
-    private lateinit var imageURI: Uri
+    private var imageURI: Uri? = null
     private val loggedUser:LoggedUserViewModel by activityViewModels()
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,21 +74,33 @@ class RegisterFragment : Fragment(), OnFailureListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        photoIV = requireView().findViewById<ImageView>(R.id.register_imageView_profile_photo)
-        firstNameET = requireView().findViewById<EditText>(R.id.register_editText_first_name)
-        lastNameET = requireView().findViewById<EditText>(R.id.register_editText_last_name)
-        emailET = requireView().findViewById<EditText>(R.id.register_editText_email)
-        usernameET = requireView().findViewById<EditText>(R.id.register_editText_username)
-        passwordET = requireView().findViewById<EditText>(R.id.register_editText_password)
+        photoIV = requireView().findViewById(R.id.register_imageView_profile_photo)
+        firstNameET = requireView().findViewById(R.id.register_editText_first_name)
+        lastNameET = requireView().findViewById(R.id.register_editText_last_name)
+        emailET = requireView().findViewById(R.id.register_editText_email)
+        usernameET = requireView().findViewById(R.id.register_editText_username)
+        passwordET = requireView().findViewById(R.id.register_editText_password)
 
-        addImageButton = requireView().findViewById<Button>(R.id.register_button_add_image)
-        registerButton = requireView().findViewById<Button>(R.id.register_button_register)
-        loginButton = requireView().findViewById<Button>(R.id.register_button_login)
+        addImageButton = requireView().findViewById(R.id.register_button_add_image)
+        registerButton = requireView().findViewById(R.id.register_button_register)
+        loginButton = requireView().findViewById(R.id.register_button_login)
+
+        progressDialog = ProgressDialog(activity)
+        progressDialog.setTitle(R.string.register_fragment_label)
+        progressDialog.setMessage("Creating your account...")
 
         registerButton.apply{
             isEnabled = false
             setOnClickListener{
-                val u = User(firstNameET.text.toString(), lastNameET.text.toString(), emailET.text.toString(), usernameET.text.toString(), passwordET.text.toString(), imageURI.toString())
+                progressDialog.show()
+                (activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                    .hideSoftInputFromWindow(view.windowToken, 0);
+                val u = User(firstNameET.text.toString(),
+                    lastNameET.text.toString(),
+                    emailET.text.toString(),
+                    usernameET.text.toString(),
+                    passwordET.text.toString(),
+                    imageURI?.toString())
                 register(u, savedInstanceState)
             }
         }
@@ -153,64 +163,104 @@ class RegisterFragment : Fragment(), OnFailureListener {
         }
     }
 
-    private fun register(u: User, savedInstanceState: Bundle?){
-        Log.d("REGISTER", u.toString())
-        db.collection("users")
-            .whereEqualTo("email", u.email)
-            .get()
-            .addOnSuccessListener { qs ->
-                if(qs.documents.isEmpty())
-                {
-                    db.collection("users")
-                        .whereEqualTo("username", u.username)
-                        .get()
-                        .addOnSuccessListener { qs2 ->
-                            if(qs2.documents.isEmpty())
-                                createAccount(u, savedInstanceState)
-                            else
-                                Toast.makeText(requireContext(), "Username is already used!", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener(this)
-                }
-                else
-                    Toast.makeText(requireContext(), "Email is already used!", Toast.LENGTH_SHORT).show()
+    private fun register(user: User, savedInstanceState: Bundle?){
+        auth.createUserWithEmailAndPassword(user.email, user.password)
+            .addOnSuccessListener {
+                authenticationSuccess(user, it, savedInstanceState)
             }
-            .addOnFailureListener(this)
+            .addOnFailureListener{
+                onFailure(it)
+            }
     }
 
-    private fun createAccount(u:User, savedInstanceState: Bundle?){
-        val fileStore = Firebase.storage.reference
-        val ref = fileStore.child("images/${u.username}/${SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(Date())}.jpg")
-        ref.putFile(Uri.parse(u.imageUri!!)).addOnCompleteListener { ts ->
-            if (!ts.isSuccessful)
-                Toast.makeText(requireContext(), "Error uploading the image!", Toast.LENGTH_SHORT)
-                    .show()
-            else {
-                u.downloadUri = ts.result.metadata!!.path
-                db.collection("users")
-                    .add(u.toHashMap())
-                    .addOnSuccessListener {
-                        Toast.makeText(
-                            requireContext(),
-                            "Account created successfully!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        requireActivity().getSharedPreferences("LoggedUser", MODE_PRIVATE).edit()
-                            .apply {
-                                putString("value", Gson().toJson(u, User::class.java).toString())
-                                commit()
-                            }
-                        loggedUser.user = u
-                        val g = findNavController().navInflater.inflate(R.navigation.nav_graph)
-                        g.setStartDestination(R.id.HomeFragment)
-                        findNavController().setGraph(g, savedInstanceState)
-                    }
-                    .addOnFailureListener(this)
-            }
+    private fun authenticationSuccess(user : User, res : AuthResult, savedInstanceState: Bundle?) {
+        if(res.user != null) {
+            user.uuid = res.user!!.uid
+            user.password = ""
+            createAccount(user, savedInstanceState)
+        }
+        else {
+            progressDialog.hide()
+            Toast.makeText(activity, "Email is taken!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onFailure(p0: Exception) {
-        Toast.makeText(requireContext(), "Error occurred ${p0.toString()}", Toast.LENGTH_LONG).show()
+    private fun createAccount(user:User, savedInstanceState: Bundle?){
+        if(user.imageUri != null) {
+            val fileStore: StorageReference = Firebase.storage.reference
+            val ref: StorageReference = fileStore.child(
+                "images/${user.username}/${
+                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(Date())
+                }.jpg"
+            )
+            ref.putFile(Uri.parse(user.imageUri!!))
+                .addOnCompleteListener {
+                    imageUploadSuccessful(it, ref, user, savedInstanceState)
+                }
+                .addOnFailureListener {
+                    onFailure(it)
+                }
+        }
+        else {
+            Firebase.storage
+                .reference
+                .child("images/defaults/profile_picture${nextInt(0, 10)}.jpg")
+                .downloadUrl
+                .addOnSuccessListener{ uri ->
+                    imageDownloadURLSuccess(uri, user,savedInstanceState)
+                }
+                .addOnFailureListener{
+                    onFailure(it)
+                }
+        }
+    }
+
+    private fun imageUploadSuccessful(ts: Task<UploadTask.TaskSnapshot>, ref : StorageReference, user: User, savedInstanceState: Bundle?) : Unit {
+        if (!ts.isSuccessful) {
+            progressDialog.hide()
+            Toast.makeText(requireContext(), "Error uploading the image!", Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+
+        ref.downloadUrl
+            .addOnSuccessListener {
+                imageDownloadURLSuccess(it, user, savedInstanceState)
+            }
+            .addOnFailureListener {
+                onFailure(it)
+            }
+    }
+
+    private fun imageDownloadURLSuccess(url:Uri, user:User, savedInstanceState: Bundle?) : Unit {
+        user.downloadUri = url.toString()
+        db.collection("users")
+            .add(user.toHashMap())
+            .addOnSuccessListener {
+                userInsertedInDatabaseSuccess(it, user, savedInstanceState)
+            }
+            .addOnFailureListener{
+                onFailure(it)
+            }
+    }
+
+    private fun userInsertedInDatabaseSuccess(doc : DocumentReference, user : User, savedInstanceState : Bundle?) : Unit{
+        loggedUser.login(user)
+        {
+            progressDialog.hide()
+            Toast.makeText(
+                requireContext(),
+                "Account created successfully!",
+                Toast.LENGTH_SHORT
+            ).show()
+            findNavController().setGraph(R.navigation.home_graph)
+            (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        }
+    }
+
+    private fun onFailure(p0: Exception) {
+        Log.d("Register-Error", p0.toString())
+        progressDialog.hide()
+        Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_LONG).show()
     }
 }

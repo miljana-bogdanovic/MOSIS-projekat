@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_graph"
+    app:startDestination="@id/MapsFragment">
+
+    <fragment
+        android:id="@+id/MapsFragment"
+        android:name="com.mosis.partyplaces.ui.MapsFragment"
+        android:label="@string/maps_fragment_label"
+        tools:layout="@layout/fragment_maps">
+
+        <action
+            android:id="@+id/action_Maps_to_Friends"
+            app:destination="@id/FriendsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_Maps_to_Rank"
+            app:destination="@id/RankFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_Maps_to_Profile"
+            app:destination="@id/ProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/FriendsFragment"
+        android:name="com.mosis.partyplaces.ui.FriendsFragment"
+        android:label="@string/friends_fragment_label"
+        tools:layout="@layout/fragment_friends">
+
+        <action
+            android:id="@+id/action_Friends_To_Maps"
+            app:destination="@id/MapsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/FriendsFragment"/>
+
+        <action
+            android:id="@+id/action_Friends_to_Rank"
+            app:destination="@id/RankFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/FriendsFragment"/>
+
+        <action
+            android:id="@+id/action_Friends_to_Profile"
+            app:destination="@id/ProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/FriendsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/RankFragment"
+        android:name="com.mosis.partyplaces.ui.RankFragment"
+        android:label="@string/rank_fragment_label"
+        tools:layout="@layout/fragment_rank">
+
+        <action
+            android:id="@+id/action_Rank_To_Maps"
+            app:destination="@id/MapsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/RankFragment"/>
+
+        <action
+            android:id="@+id/action_Rank_to_Friends"
+            app:destination="@id/FriendsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/RankFragment"/>
+
+        <action
+            android:id="@+id/action_Rank_to_Profile"
+            app:destination="@id/ProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/RankFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ProfileFragment"
+        android:name="com.mosis.partyplaces.ui.ProfileFragment"
+        android:label="@string/profile_fragment_label"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_Profile_To_Maps"
+            app:destination="@id/MapsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/ProfileFragment"/>
+
+        <action
+            android:id="@+id/action_Profile_to_Friends"
+            app:destination="@id/FriendsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/ProfileFragment"/>
+
+        <action
+            android:id="@+id/action_Profile_To_Rank"
+            app:destination="@id/RankFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/ProfileFragment"/>
+
+    </fragment>
+
+</navigation>

@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="Widget.Theme.PartyPlaces.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">@color/purple_200</item>
+    </style>
+
+</resources>

@@ -2,23 +2,22 @@ package com.mosis.partyplaces.viewmodels
 
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.os.Parcel
-import android.os.Parcelable
-import android.widget.Toast
-import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import com.google.gson.Gson
 import com.mosis.partyplaces.data.User
-import java.io.File
+import com.mosis.partyplaces.data.toObject
 
 class LoggedUserViewModel(user: User? = null) : ViewModel() {
 
     private val _user = MutableLiveData<User?>(user)
+    private val db = Firebase.firestore
+    private val auth = FirebaseAuth.getInstance()
 
     fun getMutable() = _user
 
@@ -26,28 +25,49 @@ class LoggedUserViewModel(user: User? = null) : ViewModel() {
         get() = _user.value
         set(value) { _user.value = value }
 
-    fun logout(a:Activity, callback: () -> Unit){
-        user = null
-        a.getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().clear().commit()
+    fun logout(callback: () -> Unit){
+        logout()
         callback()
     }
 
-    fun login(a:Activity, u:User, callback: () -> Unit){
-        val source = Firebase.storage.reference.child(u.downloadUri!!)
-        val img = File.createTempFile("temp_profile_${u.username}", "jpg")
-        source.getFile(img)
-            .addOnSuccessListener { fileTask ->
-                if(fileTask.error == null) {
-                    u.imageUri = img.toUri().toString()
-                    user = u
-                    a.getSharedPreferences("LoggedUser", MODE_PRIVATE).edit().apply {
-                        putString("value", Gson().toJson(u, User::class.java).toString())
-                        commit()
-                    }
-                    callback()
-                }
-                else
-                    Toast.makeText(a, "Error downloading profile image!", Toast.LENGTH_SHORT).show()
+    fun logout() {
+        user = null
+    }
+
+    fun login(u:User){
+        user = u
+    }
+
+    fun  login(u:User, callback: () -> Unit){
+        login(u)
+        callback()
+    }
+
+    fun checkSharedPreferences(a : Activity, valueExistsCallback : () -> Unit, valueDoesntExistCallback : () -> Unit) {
+        val sp = a.getSharedPreferences("Logged-User", MODE_PRIVATE)
+        val json = sp.getString("User", "")
+        if(json!!.isNotBlank()) {
+            login(json.toObject()){
+                valueExistsCallback()
+                validateUser(valueDoesntExistCallback)
             }
+            return
+        }
+        valueDoesntExistCallback()
+    }
+
+    fun validateUser(invalidUserCallback : () -> Unit){
+        db.collection("users")
+            .whereEqualTo("uuid", user!!.uuid)
+            .get()
+            .addOnSuccessListener { res2 ->
+                databaseResult(res2, invalidUserCallback)
+            }
+    }
+
+    private fun databaseResult(res : QuerySnapshot, invalidUserCallback: () -> Unit){
+        // Morace da se menja
+        if(res.documents.isEmpty()) //|| res.documents[0].toObject<User>() != user)
+            invalidUserCallback()
     }
 }
