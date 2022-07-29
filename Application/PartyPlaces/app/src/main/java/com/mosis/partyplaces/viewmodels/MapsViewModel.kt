@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import com.google.firebase.firestore.GeoPoint
 import com.mosis.partyplaces.data.User
 import kotlin.math.min
 
@@ -29,14 +30,29 @@ class MapsViewModel : ViewModel(), GoogleMap.OnMarkerClickListener {
         map.setMinZoomPreference(14f)
 
         this.friendsList = getFriends()
-        friendsList.onEach { f -> f.imageUri?.let { setupMarker(f.lat, f.lon, it, context)  } }
+        friendsList.onEach { f -> f.imageUri?.let { setupMarker(f.location.latitude, f.location.longitude, it, context)  } }
         map.setOnMarkerClickListener(this)
     }
 
     fun getFriends(): List<User> {
         // citanje iz baze
-        return listOf(User("Miljana", "Bogdanovic", "miljana1@gmail.com", "miljana1", "miljana1", "", "",43.321660, 21.895459),
-            User("Miljana", "Bogdanovic", "miljana2@gmail.com", "miljana2", "miljana2", "", "",43.321443, 21.895848))
+        return listOf(
+            User("Miljana",
+                "Bogdanovic",
+                "miljana1@gmail.com",
+                "miljana1",
+                "miljana1",
+                "",
+                "",
+                GeoPoint(43.321660, 21.895459)
+        ),
+            User("Miljana",
+                "Bogdanovic",
+                "miljana2@gmail.com",
+                "miljana2",
+                "miljana2",
+                "", "",
+                GeoPoint(43.321443, 21.895848)))
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {

@@ -1,6 +1,9 @@
 package com.mosis.partyplaces.data
 
+import android.location.Location
 import androidx.room.Entity
+import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.GeoPoint
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -27,12 +30,9 @@ data class User(
     @SerializedName("downloadUri")
     @Expose
     var downloadUri: String? = null,
-    @SerializedName("lat")
+    @SerializedName("location")
     @Expose
-    var lat:Double = 0.0,
-    @SerializedName("lon")
-    @Expose
-    var lon:Double = 0.0,
+    var location : GeoPoint = GeoPoint(.0,.0),
     @SerializedName("uuid")
     @Expose
     var uuid:String? = null) : JSONConvertable {
@@ -46,8 +46,10 @@ data class User(
             "username" to username,
             "password" to password,
             "downloadUri" to downloadUri,
-            "lat" to lat,
-            "lon" to lon
+            "location" to mapOf(
+                "longitude" to location.longitude,
+                "latitude" to location.latitude
+            )
         )
     }
 }

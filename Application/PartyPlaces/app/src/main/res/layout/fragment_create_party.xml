@@ -6,8 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.CreatePartyFragment"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center">
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,15 +14,16 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_name"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/create_party_name_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <EditText
+                android:id="@+id/editText_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -33,15 +33,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_theme"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/create_party_theme_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <EditText
+                android:id="@+id/editText_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,85 +52,113 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_date"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/create_party_date_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <EditText
+                android:id="@+id/editText_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="date"
-                />
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_start_time"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/create_party_start_time_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <EditText
+                android:id="@+id/editText_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="time"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_end_time"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/create_party_end_time_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <EditText
+                android:id="@+id/editText_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="time"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_location"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/create_party_location_label"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:orientation="vertical"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            android:orientation="vertical">
 
             <EditText
+                android:id="@+id/editText_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="text"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="@string/my_location"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create_party_create_button"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"/>
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_party_cancel_button_label"
+            android:background="#00FFFFFF"
+            android:textColor="@color/purple_200"/>
+
+        <Button
+            android:id="@+id/button_create_party"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_party_create_button"/>
+
+    </LinearLayout>
 
 </LinearLayout>

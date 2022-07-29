@@ -51,4 +51,12 @@
     <string name="create_party_location_label">Location</string>
     <string name="create_party_create_button">Create the party</string>
     <string name="create_party_fragment_label">Create a new party</string>
+    <string name="create_party_cancel_button_label">Cancel</string>
+    <string name="my_location">My location</string>
+    <string name="create_party_name_empty_message">Name field cannot be empty</string>
+    <string name="create_party_theme_empty_message">Theme cannot be empty</string>
+    <string name="create_party_date_empty_message">Date cannot be empty</string>
+    <string name="create_party_start_time_empty_message">Start time cannot be empty</string>
+    <string name="create_party_end_time_empty_message">End time cannot be empty</string>
+    <string name="create_party_location_empty_message">Location cannot be empty</string>
 </resources>

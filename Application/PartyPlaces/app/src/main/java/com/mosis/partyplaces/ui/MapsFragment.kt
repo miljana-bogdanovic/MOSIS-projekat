@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -31,11 +32,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.GeoPoint
 import com.mosis.partyplaces.MainActivity
 import com.mosis.partyplaces.R
+import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
 import com.mosis.partyplaces.viewmodels.MapsViewModel
 
 class MapsFragment : Fragment()  {
+    private val loggedUser: LoggedUserViewModel by activityViewModels()
     private var fusedLocationClient: FusedLocationProviderClient? = null
     private var lastLocation: Location? = null
     private val mapsViewModel: MapsViewModel by viewModels()
@@ -56,15 +60,17 @@ class MapsFragment : Fragment()  {
             if(fusedLocationClient!=null){
                 fusedLocationClient?.lastLocation?.addOnCompleteListener {
                     if(it.result!=null) {
+                        val latlng = LatLng(
+                            it.result.latitude,
+                            it.result.longitude
+                        )
                         map.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(
-                                LatLng(
-                                    it.result.latitude,
-                                    it.result.longitude
-                                ), zoomLevel
+                                latlng, zoomLevel
                             )
                         )
-                        lastLocation=it.result
+                        lastLocation = it.result
+                        loggedUser.user!!.location = GeoPoint(latlng.latitude, latlng.longitude)
                     }
                 }
             }else{
