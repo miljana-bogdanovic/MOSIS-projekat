@@ -42,4 +42,13 @@
     <string name="profile_fragment_label">Profile</string>
     <string name="rank_fragment_label">Rank</string>
     <string name="friends_fragment_label">Friends</string>
+    <string name="create_party_party_name_label">Name</string>
+    <string name="create_party_name_label">Name</string>
+    <string name="create_party_theme_label">Theme</string>
+    <string name="create_party_date_label">Date</string>
+    <string name="create_party_start_time_label">Starts at</string>
+    <string name="create_party_end_time_label">Ends at</string>
+    <string name="create_party_location_label">Location</string>
+    <string name="create_party_create_button">Create the party</string>
+    <string name="create_party_fragment_label">Create a new party</string>
 </resources>

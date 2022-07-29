@@ -15,7 +15,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mosis.partyplaces.databinding.ActivityMainBinding
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
-import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,35 +54,44 @@ class MainActivity : AppCompatActivity() {
                         R.id.FriendsFragment -> navController.navigate(R.id.action_Friends_To_Maps)
                         R.id.RankFragment -> navController.navigate(R.id.action_Rank_To_Maps)
                         R.id.ProfileFragment -> navController.navigate(R.id.action_Profile_To_Maps)
-                        //R.id.HomeFragment -> navController.navigate(R.id.action_HomeFragment_to_MapFragment)
+                        R.id.CreatePartyFragment -> navController.navigate(R.id.action_CreateParty_To_Maps)
                     }
                     true
                 }
                 R.id.ic_friends -> {
                     when (navController.currentDestination?.id) {
-                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_to_Friends)
-                        R.id.RankFragment -> navController.navigate(R.id.action_Rank_to_Friends)
-                        R.id.ProfileFragment -> navController.navigate(R.id.action_Profile_to_Friends)
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_To_Friends)
+                        R.id.RankFragment -> navController.navigate(R.id.action_Rank_To_Friends)
+                        R.id.ProfileFragment -> navController.navigate(R.id.action_Profile_To_Friends)
+                        R.id.CreatePartyFragment -> navController.navigate(R.id.action_CreateParty_To_Friends)
                     }
                     true
                 }
                 R.id.ic_rank -> {
                     when (navController.currentDestination?.id) {
-                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_to_Rank)
-                        R.id.FriendsFragment -> navController.navigate(R.id.action_Friends_to_Rank)
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_To_Rank)
+                        R.id.FriendsFragment -> navController.navigate(R.id.action_Friends_To_Rank)
                         R.id.ProfileFragment -> navController.navigate(R.id.action_Profile_To_Rank)
+                        R.id.CreatePartyFragment -> navController.navigate(R.id.action_CreateParty_To_Rank)
                     }
                     true
                 }
                 R.id.ic_profile -> {
                     when (navController.currentDestination?.id) {
-                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_to_Profile)
-                        R.id.FriendsFragment -> navController.navigate(R.id.action_Friends_to_Profile)
-                        R.id.RankFragment -> navController.navigate(R.id.action_Rank_to_Profile)
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_To_Profile)
+                        R.id.FriendsFragment -> navController.navigate(R.id.action_Friends_To_Profile)
+                        R.id.RankFragment -> navController.navigate(R.id.action_Rank_To_Profile)
+                        R.id.CreatePartyFragment -> navController.navigate(R.id.action_CreateParty_To_Profile)
                     }
                     true
                 }
                 R.id.ic_event -> {
+                    when (navController.currentDestination?.id) {
+                        R.id.MapsFragment -> navController.navigate(R.id.action_Maps_To_CreateParty)
+                        R.id.FriendsFragment -> navController.navigate(R.id.action_Friends_To_CreateParty)
+                        R.id.RankFragment -> navController.navigate(R.id.action_Rank_To_CreateParty)
+                        R.id.ProfileFragment -> navController.navigate(R.id.action_Profile_To_CreateParty)
+                    }
                     true
                 }
 

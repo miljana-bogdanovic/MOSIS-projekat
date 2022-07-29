@@ -12,20 +12,26 @@
         tools:layout="@layout/fragment_maps">
 
         <action
-            android:id="@+id/action_Maps_to_Friends"
+            android:id="@+id/action_Maps_To_Friends"
             app:destination="@id/FriendsFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Maps_to_Rank"
+            android:id="@+id/action_Maps_To_Rank"
             app:destination="@id/RankFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Maps_to_Profile"
+            android:id="@+id/action_Maps_To_Profile"
             app:destination="@id/ProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_Maps_To_CreateParty"
+            app:destination="@id/CreatePartyFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
@@ -44,14 +50,20 @@
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Friends_to_Rank"
+            android:id="@+id/action_Friends_To_Rank"
             app:destination="@id/RankFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Friends_to_Profile"
+            android:id="@+id/action_Friends_To_Profile"
             app:destination="@id/ProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_Friends_To_CreateParty"
+            app:destination="@id/CreatePartyFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
@@ -70,14 +82,20 @@
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Rank_to_Friends"
+            android:id="@+id/action_Rank_To_Friends"
             app:destination="@id/FriendsFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Rank_to_Profile"
+            android:id="@+id/action_Rank_To_Profile"
             app:destination="@id/ProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_Rank_To_CreateParty"
+            app:destination="@id/CreatePartyFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
@@ -96,7 +114,7 @@
             app:popUpTo="@id/MapsFragment"/>
 
         <action
-            android:id="@+id/action_Profile_to_Friends"
+            android:id="@+id/action_Profile_To_Friends"
             app:destination="@id/FriendsFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
@@ -104,6 +122,44 @@
         <action
             android:id="@+id/action_Profile_To_Rank"
             app:destination="@id/RankFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_Profile_To_CreateParty"
+            app:destination="@id/CreatePartyFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/CreatePartyFragment"
+        android:name="com.mosis.partyplaces.ui.CreatePartyFragment"
+        android:label="@string/create_party_fragment_label"
+        tools:layout="@layout/fragment_create_party">
+
+        <action
+            android:id="@+id/action_CreateParty_To_Maps"
+            app:destination="@id/MapsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_CreateParty_To_Friends"
+            app:destination="@id/FriendsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_CreateParty_To_Rank"
+            app:destination="@id/RankFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/MapsFragment"/>
+
+        <action
+            android:id="@+id/action_CreateParty_To_Profile"
+            app:destination="@id/ProfileFragment"
             app:popUpToInclusive="true"
             app:popUpTo="@id/MapsFragment"/>
 
