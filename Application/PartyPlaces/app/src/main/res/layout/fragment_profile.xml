@@ -194,24 +194,6 @@
 
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_label_uuid"/>
-
-        <TextView
-            android:id="@+id/profile_textView_uuid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -230,19 +212,25 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/party_list_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_label_password"/>
-
-        <TextView
-            android:id="@+id/profile_textView_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/my_parties_label"
+            android:textStyle="bold"
+            android:textSize="30sp"/>
+
+        <ListView
+            android:id="@+id/parties"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:dividerHeight="5dp"
+            android:divider="@android:color/transparent"/>
 
     </LinearLayout>
 

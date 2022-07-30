@@ -3,30 +3,61 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:padding="20dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#55FFFFFF">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/chosen_location"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/chosen_location"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:translationZ="2dp" />
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:textStyle="italic"/>
+
+    </LinearLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#55FFFFFF"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/map_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:background="@color/transparent"
+            android:textColor="@color/purple_200"/>
 
         <Button
             android:id="@+id/map_select_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="right"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Ok"
-            android:translationZ="1dp" />
+            android:text="Ok"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

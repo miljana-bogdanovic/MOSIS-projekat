@@ -93,23 +93,26 @@ class LoginFragment : Fragment() {
     private fun login(username: String, password: String, savedInstanceState: Bundle?) {
         auth.signInWithEmailAndPassword(username, password)
             .addOnSuccessListener { res ->
-                DatabaseUtilities.loadUserWithPhoto(res.user!!.uid){
-                    loggedUser.login(it)
-                    {
-                        progressDialog.hide()
-                        findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
-                    }
-                }
-        }
-        .addOnFailureListener {
-            Toast.makeText(activity, "Error occurred!", Toast.LENGTH_SHORT).show()
-            progressDialog.hide()
-        }
+                DatabaseUtilities.loadUserWithPhoto(
+                    res.user!!.uid,
+                    { u ->
+                        loggedUser.login(u)
+                        {
+                            progressDialog.hide()
+                            findNavController().setGraph(
+                                R.navigation.home_graph,
+                                savedInstanceState
+                            )
+                        }
+                    },
+                    { e -> onFailure(e) }
+                )
+            }
+        .addOnFailureListener { e -> onFailure(e) }
     }
-    private fun onFailure(ex : Exception, msg : String = "") {
+    private fun onFailure(ex : Exception) {
         progressDialog.hide()
-        Log.d("Login", ex.toString())
-        if (msg.isNotBlank())
-            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+        Log.e("Login", ex.stackTraceToString())
+        Toast.makeText(activity, "Error occurred!", Toast.LENGTH_SHORT).show()
     }
 }

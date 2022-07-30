@@ -18,8 +18,11 @@
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/drawable/ic_rank_selected.xml" value="0.121" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/drawable/ic_search.xml" value="0.121" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/drawable/ic_sign_out.xml" value="0.121" />
+        <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/drawable/rounded_corners.xml" value="0.536" />
+        <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/drawable/rounded_corners2.xml" value="0.2265" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/content_main.xml" value="0.25" />
+        <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/dialog_progress.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/fragment_create_party.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/fragment_friends.xml" value="0.1" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/fragment_home.xml" value="0.25" />
@@ -33,6 +36,7 @@
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/map_select_location_dialog.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/menu_main.xml" value="0.1" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/nav_main.xml" value="0.2359375" />
+        <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/party_list_item.xml" value="0.176" />
         <entry key="..\:/Users/Stefan/Desktop/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/menu/menu_main.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/miljana/Desktop/8 semestar/MOSIS/PROJEKAT/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/drawable/ic_rank_selected.xml" value="0.101" />
         <entry key="..\:/Users/miljana/Desktop/8 semestar/MOSIS/PROJEKAT/MOSIS-projekat/Application/PartyPlaces/app/src/main/res/layout/activity_main.xml" value="0.22" />

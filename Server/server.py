@@ -12,7 +12,7 @@ m = messaging.Message(
         },
         notification = Notification(
             title = "Stefan",
-            body = "Hola baby",
+            body = "Zdravo Tina",
             image=None
         ),
         topic="testing")

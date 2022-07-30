@@ -60,4 +60,17 @@
     <string name="create_party_end_time_empty_message">End time cannot be empty</string>
     <string name="create_party_location_empty_message">Location cannot be empty</string>
     <string name="field_cannot_be_empty">Field cannot be empty</string>
+    <string name="loading_dialog_label">Loading</string>
+    <string name="loading_dialog_description">Description</string>
+    <string name="choose_location">Choose location</string>
+    <string name="chosen_location">Chosen location:</string>
+    <string name="my_parties_label">My parties</string>
+    <string name="party_theme">Theme</string>
+    <string name="party_guests_label">Guests</string>
+    <string name="party_date_label">Date</string>
+    <string name="party_theme_label">Theme</string>
+    <string name="party_score_label">Score</string>
+    <string name="party_location_label">Location</string>
+    <string name="party_name_label">Name</string>
+    <string name="no_parties">No Parties Yet :(</string>
 </resources>

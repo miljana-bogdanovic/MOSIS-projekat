@@ -184,7 +184,7 @@ class RegisterFragment : Fragment() {
 
     private fun authenticationSuccess(user : User, res : AuthResult, savedInstanceState: Bundle?) {
         if(res.user != null) {
-            user.uuid = res.user!!.uid
+            user.id = res.user!!.uid
             user.password = ""
             createAccount(user, savedInstanceState)
         }
@@ -196,29 +196,43 @@ class RegisterFragment : Fragment() {
 
     private fun createAccount(user:User, savedInstanceState: Bundle?){
         if(user.profilePhotoUriString.isNotEmpty()) {
-            DatabaseUtilities.saveUserWithPhoto(user){
-                loggedUser.login(it) {
-                    progressDialog.hide()
-                    findNavController().setGraph(R.navigation.home_graph)
-                }
-            }
-        }
-        else {
-            user.profilePhotoDownloadPath ="images/defaults/profile_picture${nextInt(0, 10)}.jpg"
-            DatabaseUtilities.downloadPhoto(user.profilePhotoDownloadPath) {
-                user.profilePhotoUriString = it.toString()
-                DatabaseUtilities.saveUser(user) { u ->
-                    loggedUser.login(u) {
+            DatabaseUtilities.saveUserWithPhoto(
+                user,
+                { u ->
+                    loggedUser.login(u)
+                    {
                         progressDialog.hide()
                         findNavController().setGraph(R.navigation.home_graph)
                     }
-                }
-            }
+                },
+                { e -> onFailure(e) }
+            )
+        }
+        else {
+            user.profilePhotoDownloadPath = "images/defaults/profiles/profile${nextInt(0, 10)}.jpg"
+            DatabaseUtilities.downloadPhoto(
+                user.profilePhotoDownloadPath,
+                { uri ->
+                    user.profilePhotoUriString = uri.toString()
+                    DatabaseUtilities.saveUser(
+                        user,
+                        { u ->
+                            loggedUser.login(u) {
+                                progressDialog.hide()
+                                findNavController().setGraph(R.navigation.home_graph)
+                            }
+                        },
+                        { e ->
+                            onFailure(e)
+                        })
+                },
+                { e -> onFailure(e) }
+            )
         }
     }
 
-    private fun onFailure(p0: Exception) {
-        Log.d("Register-Error", p0.toString())
+    private fun onFailure(p: Exception){
+        Log.e("Register-Error", p.stackTraceToString())
         progressDialog.hide()
         Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_LONG).show()
     }

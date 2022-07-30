@@ -1,6 +1,5 @@
 package com.mosis.partyplaces.data
 
-import android.net.Uri
 import androidx.room.Entity
 import com.google.firebase.firestore.GeoPoint
 import com.google.gson.annotations.Expose
@@ -10,38 +9,48 @@ import com.google.gson.annotations.SerializedName
 data class User(
     @SerializedName("firstName")
     @Expose
-    var firstName : String = "",
+    override var firstName : String = "",
     @SerializedName("lastName")
     @Expose
-    var lastName : String = "",
+    override var lastName : String = "",
     @SerializedName("email")
     @Expose
-    var email : String = "",
+    override var email : String = "",
     @SerializedName("username")
     @Expose
-    var username : String = "",
+    override var username : String = "",
     @SerializedName("password")
     @Expose
     var password : String = "",
-    @SerializedName("profilePhotoDownloadUri")
+    @SerializedName("profilePhotoDownloadPath")
     @Expose
-    var profilePhotoDownloadPath : String = "",
-    @SerializedName("profilePhotoUri")
+    override var profilePhotoDownloadPath : String = "",
+    @SerializedName("profilePhotoUriString")
     @Expose
-    var profilePhotoUriString : String = "",
+    override var profilePhotoUriString : String = "",
     @SerializedName("location")
     @Expose
     var location : GeoPoint = GeoPoint(.0,.0),
-    @SerializedName("uuid")
+    @SerializedName("id")
     @Expose
-    var uuid : String = "",
-    @SerializedName("rank")
-    @Expose
-    var rank : Int = -1,
+    override var id : String = "",
     @SerializedName("parties")
     @Expose
     var parties : MutableList<String> = mutableListOf(),
     @SerializedName("friends")
     @Expose
-    var friends : MutableList<String> = mutableListOf()) : JSONConvertable{
+    var friends : MutableList<String> = mutableListOf(),
+    @SerializedName("score")
+    @Expose
+    override var score : Long = 0,
+    @SerializedName("friendNo")
+    @Expose
+    override var friendNo : Long = 0,
+    @SerializedName("partyNo")
+    @Expose
+    override var partyNo : Long = 0,
+    @SerializedName("rank")
+    @Expose
+    override var rank : Long = -1
+    ) : JSONConvertable, UserLite(){
 }

@@ -1,40 +1,35 @@
 package com.mosis.partyplaces.ui
 
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.set
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.mosis.partyplaces.R
+import com.mosis.partyplaces.data.DatabaseUtilities
+import com.mosis.partyplaces.databinding.FragmentProfileBinding
+import com.mosis.partyplaces.ui.adapters.PartyListAdapter
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.flow.callbackFlow
-import java.lang.Exception
+import java.lang.reflect.Type
 
 class ProfileFragment : Fragment() {
 
     private val loggedUser: LoggedUserViewModel by activityViewModels()
-    private lateinit var uuidTV: TextView
-    private lateinit var firstNameTV: TextView
-    private lateinit var lastNameTV: TextView
-    private lateinit var usernameTV: TextView
-    private lateinit var emailTV: TextView
-    private lateinit var password: TextView
-    private lateinit var photoIV: ImageView
-    private lateinit var pBar:ProgressBar
+    private lateinit var _binding: FragmentProfileBinding
+    private var partyListAdapter : PartyListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -42,30 +37,43 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        return root
+
+        return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pBar = requireView().findViewById(R.id.profile_progressBar_profile_picture)
-        pBar.isVisible = true
-        uuidTV = requireView().findViewById(R.id.profile_textView_uuid)
-        firstNameTV = requireView().findViewById(R.id.profile_textView_first_name)
-        lastNameTV = requireView().findViewById(R.id.profile_textView_last_name)
-        usernameTV = requireView().findViewById(R.id.profile_textView_username)
-        emailTV = requireView().findViewById(R.id.profile_textView_email)
-        password = requireView().findViewById(R.id.profile_textView_password)
-        photoIV = requireView().findViewById(R.id.profile_imageView_profile_photo)
+        _binding.profileProgressBarProfilePicture.isVisible = true
+        _binding.profileTextViewFirstName.text = loggedUser.user!!.firstName
+        _binding.profileTextViewLastName.text = loggedUser.user!!.lastName
+        _binding.profileTextViewUsername.text = "@" + loggedUser.user!!.username
+        _binding.profileTextViewEmail.text = loggedUser.user!!.email
+        _binding.profileImageViewProfilePhoto.setImageURI(Uri.parse(loggedUser!!.user!!.profilePhotoUriString))
+        _binding.profileTextViewFriendsNo.text = loggedUser.user!!.friendNo.toString()
+        _binding.profileTextViewPartiesNo.text = loggedUser.user!!.partyNo.toString()
+        _binding.profileTextViewRankNo.text = loggedUser.user!!.rank.toString()
 
-        uuidTV.text = loggedUser.user!!.uuid
-        firstNameTV.text = loggedUser.user!!.firstName
-        lastNameTV.text = loggedUser.user!!.lastName
-        usernameTV.text = loggedUser.user!!.username
-        emailTV.text = loggedUser.user!!.email
-        password.text = loggedUser.user!!.password
-        photoIV.setImageURI(Uri.parse(loggedUser!!.user!!.profilePhotoUriString))
+        DatabaseUtilities.getParties(
+            loggedUser.user!!.id,
+            { parties ->
+                partyListAdapter = PartyListAdapter(requireContext(), parties)
+                _binding.parties.adapter = partyListAdapter
+                if(parties.size < 1){
+                    val tv = TextView(requireContext())
+                    tv.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    tv.gravity = Gravity.CENTER
+                    tv.text = getString(R.string.no_parties)
+                    tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40f)
+                    _binding.partyListLayout.addView(tv)
+                }
+            },
+            { e ->
+                Toast.makeText(requireContext(), "Couldn't load parties", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        )
     }
 }

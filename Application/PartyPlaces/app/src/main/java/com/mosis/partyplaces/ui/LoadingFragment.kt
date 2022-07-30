@@ -30,10 +30,10 @@ class LoadingFragment : Fragment() {
         loadingTV.text = "Loading..."
 
         // If User is in shared preferences
-        loggedUser.checkSharedPreferences(requireActivity(), fun() {
-            findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
-        }, fun(){
-            findNavController().setGraph(R.navigation.welcome_graph, savedInstanceState)
-        })
+        loggedUser.checkSharedPreferences(
+            requireActivity(),
+            { findNavController().setGraph(R.navigation.home_graph, savedInstanceState) },
+            { findNavController().setGraph(R.navigation.welcome_graph, savedInstanceState) }
+        )
     }
 }

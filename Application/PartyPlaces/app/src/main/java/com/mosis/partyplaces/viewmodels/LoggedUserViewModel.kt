@@ -5,11 +5,9 @@ import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.mosis.partyplaces.data.User
 import com.mosis.partyplaces.data.toObject
@@ -60,7 +58,7 @@ class LoggedUserViewModel(user: User? = null) : ViewModel() {
 
     fun validateUser(invalidUserCallback : () -> Unit){
         db.collection("users")
-            .whereEqualTo("uuid", user!!.uuid)
+            .whereEqualTo("id", user!!.id)
             .get()
             .addOnSuccessListener { res2 ->
                 databaseResult(res2, invalidUserCallback)
@@ -69,7 +67,7 @@ class LoggedUserViewModel(user: User? = null) : ViewModel() {
 
     private fun databaseResult(res : QuerySnapshot, invalidUserCallback: () -> Unit){
         // Morace da se menja
-        if(res.documents.isEmpty()) //|| res.documents[0].toObject<User>() != user)
-            invalidUserCallback()
+        /*if(res.documents.isEmpty()) //|| res.documents[0].toObject<User>() != user)
+            invalidUserCallback()*/
     }
 }
