@@ -2,6 +2,7 @@ package com.mosis.partyplaces.viewmodels
 
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.AuthResult
@@ -46,6 +47,7 @@ class LoggedUserViewModel(user: User? = null) : ViewModel() {
     fun checkSharedPreferences(a : Activity, valueExistsCallback : () -> Unit, valueDoesntExistCallback : () -> Unit) {
         val sp = a.getSharedPreferences("Logged-User", MODE_PRIVATE)
         val json = sp.getString("User", "")
+        Log.d("USER-USER-USER", json.toString())
         if(json!!.isNotBlank()) {
             login(json.toObject()){
                 valueExistsCallback()

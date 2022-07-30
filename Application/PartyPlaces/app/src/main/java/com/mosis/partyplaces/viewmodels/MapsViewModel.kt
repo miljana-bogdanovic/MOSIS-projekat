@@ -30,7 +30,7 @@ class MapsViewModel : ViewModel(), GoogleMap.OnMarkerClickListener {
         map.setMinZoomPreference(14f)
 
         this.friendsList = getFriends()
-        friendsList.onEach { f -> f.imageUri?.let { setupMarker(f.location.latitude, f.location.longitude, it, context)  } }
+        friendsList.onEach { f -> f.profilePhotoUriString?.let { setupMarker(f.location.latitude, f.location.longitude, it, context)  } }
         map.setOnMarkerClickListener(this)
     }
 
@@ -60,15 +60,15 @@ class MapsViewModel : ViewModel(), GoogleMap.OnMarkerClickListener {
         return true
     }
 
-    private fun setupMarker(lat: Double, long: Double, imageUri: String, context: Context) {
+    private fun setupMarker(lat: Double, long: Double, imageUriString: String, context: Context) {
         var bitmap: Bitmap? = null
         val contentResolver: ContentResolver = context.contentResolver
         try {
             bitmap = if (Build.VERSION.SDK_INT < 28) {
-                MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(imageUri))
+                MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(imageUriString))
             } else {
                 val source: ImageDecoder.Source =
-                    ImageDecoder.createSource(contentResolver, Uri.parse(imageUri))
+                    ImageDecoder.createSource(contentResolver, Uri.parse(imageUriString))
                 ImageDecoder.decodeBitmap(source)
             }
         } catch (e: Exception) {

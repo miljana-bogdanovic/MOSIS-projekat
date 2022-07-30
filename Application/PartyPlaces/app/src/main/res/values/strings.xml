@@ -59,4 +59,5 @@
     <string name="create_party_start_time_empty_message">Start time cannot be empty</string>
     <string name="create_party_end_time_empty_message">End time cannot be empty</string>
     <string name="create_party_location_empty_message">Location cannot be empty</string>
+    <string name="field_cannot_be_empty">Field cannot be empty</string>
 </resources>

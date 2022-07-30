@@ -1,8 +1,7 @@
 package com.mosis.partyplaces.data
 
-import android.location.Location
+import android.net.Uri
 import androidx.room.Entity
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.GeoPoint
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -11,45 +10,38 @@ import com.google.gson.annotations.SerializedName
 data class User(
     @SerializedName("firstName")
     @Expose
-    var firstName: String = "",
+    var firstName : String = "",
     @SerializedName("lastName")
     @Expose
-    var lastName: String = "",
+    var lastName : String = "",
     @SerializedName("email")
     @Expose
-    var email: String = "",
+    var email : String = "",
     @SerializedName("username")
     @Expose
-    var username: String = "",
+    var username : String = "",
     @SerializedName("password")
     @Expose
-    var password: String = "",
-    @SerializedName("imageUri")
+    var password : String = "",
+    @SerializedName("profilePhotoDownloadUri")
     @Expose
-    var imageUri: String? = null,
-    @SerializedName("downloadUri")
+    var profilePhotoDownloadPath : String = "",
+    @SerializedName("profilePhotoUri")
     @Expose
-    var downloadUri: String? = null,
+    var profilePhotoUriString : String = "",
     @SerializedName("location")
     @Expose
     var location : GeoPoint = GeoPoint(.0,.0),
     @SerializedName("uuid")
     @Expose
-    var uuid:String? = null) : JSONConvertable {
-
-    fun toHashMap():Map<String, *> {
-        return mapOf(
-            "uuid" to uuid,
-            "firstName" to firstName,
-            "lastName" to lastName,
-            "email" to email,
-            "username" to username,
-            "password" to password,
-            "downloadUri" to downloadUri,
-            "location" to mapOf(
-                "longitude" to location.longitude,
-                "latitude" to location.latitude
-            )
-        )
-    }
+    var uuid : String = "",
+    @SerializedName("rank")
+    @Expose
+    var rank : Int = -1,
+    @SerializedName("parties")
+    @Expose
+    var parties : MutableList<String> = mutableListOf(),
+    @SerializedName("friends")
+    @Expose
+    var friends : MutableList<String> = mutableListOf()) : JSONConvertable{
 }

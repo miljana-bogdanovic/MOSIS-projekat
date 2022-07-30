@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.callbackFlow
 import java.lang.Exception
 
-class ProfileFragment : Fragment(), Callback {
+class ProfileFragment : Fragment() {
 
     private val loggedUser: LoggedUserViewModel by activityViewModels()
     private lateinit var uuidTV: TextView
@@ -66,17 +66,6 @@ class ProfileFragment : Fragment(), Callback {
         usernameTV.text = loggedUser.user!!.username
         emailTV.text = loggedUser.user!!.email
         password.text = loggedUser.user!!.password
-        Picasso.get()
-            .load(loggedUser.user!!.downloadUri)
-            .into(photoIV, this)
-    }
-
-    override fun onSuccess() {
-        pBar.isVisible = false
-    }
-
-    override fun onError(e: Exception?) {
-        pBar.isVisible = false
-        Toast.makeText(activity, "Couldn't download profile picture", Toast.LENGTH_SHORT).show()
+        photoIV.setImageURI(Uri.parse(loggedUser!!.user!!.profilePhotoUriString))
     }
 }

@@ -4,121 +4,107 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.AuthResult
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
 import com.mosis.partyplaces.R
-import com.mosis.partyplaces.data.User
+import com.mosis.partyplaces.data.DatabaseUtilities
+import com.mosis.partyplaces.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
     private val db = Firebase.firestore
     private val loggedUser: LoggedUserViewModel by activityViewModels()
     private val auth = FirebaseAuth.getInstance()
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var _binding: FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val emailET = requireView().findViewById<EditText>(R.id.login_editText_email)
-        val passwordET = requireView().findViewById<EditText>(R.id.login_editText_password)
-        val loginButton = requireView().findViewById<Button>(R.id.login_button_login)
-        val registerButton = requireView().findViewById<Button>(R.id.login_button_register)
-
         progressDialog = ProgressDialog(activity)
         progressDialog.setTitle("Login")
         progressDialog.setMessage("Checking your credentials...")
 
-        loginButton.apply {
-            isEnabled = false
+        _binding.buttonLogin.apply {
             setOnClickListener {
-                progressDialog.show()
                 // Hide keyboard
                 (activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(view.windowToken, 0);
-                login(emailET.text.toString(), passwordET.text.toString(), savedInstanceState)
+                    .hideSoftInputFromWindow(view.windowToken, 0)
+                if(validateData()) {
+                    progressDialog.show()
+                    login(
+                        _binding.editTextEmail.text.toString(),
+                        _binding.editTextPassword.text.toString(),
+                        savedInstanceState
+                    )
+                }
             }
         }
 
-        registerButton.setOnClickListener {
+        _binding.buttonRegister.setOnClickListener {
             findNavController().navigate(R.id.action_LoginFragment_to_RegisterFragment)
         }
 
-        val listener = object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        _binding.editTextEmail.addTextChangedListener { textChanged(_binding.textInputEmail, it) }
+        _binding.editTextPassword.addTextChangedListener { textChanged(_binding.textInputPassword, it) }
+    }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    private fun validateData() : Boolean {
 
-            override fun afterTextChanged(s: Editable?) {
-                loginButton.isEnabled =
-                    s.toString().isNotBlank() and passwordET.text.toString().isNotBlank()
-            }
+        var t = true
+        if(_binding.editTextEmail.text.isBlank()){
+            t = false
+            _binding.textInputEmail.error = getString(R.string.field_cannot_be_empty)
         }
+        if(_binding.editTextPassword.text.isBlank()){
+            t = false
+            _binding.textInputPassword.error = getString(R.string.field_cannot_be_empty)
+        }
+        return t
+    }
 
-        emailET.addTextChangedListener(listener)
-        passwordET.addTextChangedListener(listener)
+    private fun textChanged(view:TextInputLayout, ed:Editable?){
+        if(ed != null && ed.isNotBlank()){
+            view.error = null
+        }
     }
 
     private fun login(username: String, password: String, savedInstanceState: Bundle?) {
         auth.signInWithEmailAndPassword(username, password)
             .addOnSuccessListener { res ->
-                authenticationSuccess(res, savedInstanceState)
+                DatabaseUtilities.loadUserWithPhoto(res.user!!.uid){
+                    loggedUser.login(it)
+                    {
+                        progressDialog.hide()
+                        findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
+                    }
+                }
         }
         .addOnFailureListener {
             Toast.makeText(activity, "Error occurred!", Toast.LENGTH_SHORT).show()
             progressDialog.hide()
         }
-    }
-
-    private fun authenticationSuccess(res : AuthResult, savedInstanceState: Bundle?) {
-        if (res.user != null) {
-            db.collection("users")
-                .whereEqualTo("uuid", res.user!!.uid)
-                .get()
-                .addOnSuccessListener { res2 ->
-                    databaseUserResultSuccess(res2, savedInstanceState)
-                }
-                .addOnFailureListener {
-                    onFailure(it)
-                }
-            return
-        }
-        onFailure(Exception("Wrong credentials!"), "Wrong credentials!")
-    }
-
-    private fun databaseUserResultSuccess(res : QuerySnapshot, savedInstanceState: Bundle?){
-        if (res.documents.isNotEmpty()) {
-            loggedUser.login(res.documents[0].toObject(User::class.java)!!)
-            {
-                progressDialog.hide()
-                findNavController().setGraph(R.navigation.home_graph, savedInstanceState)
-            }
-            return
-        }
-
-        onFailure(Exception("Account doesn't exist in the database!"), "Seems like this user account was deleted!")
     }
     private fun onFailure(ex : Exception, msg : String = "") {
         progressDialog.hide()

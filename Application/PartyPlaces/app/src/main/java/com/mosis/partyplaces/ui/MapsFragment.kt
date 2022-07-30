@@ -57,9 +57,9 @@ class MapsFragment : Fragment()  {
 
         if(isLocationPermissionGranted(requireContext())) {
             enableMyLocation()
-            if(fusedLocationClient!=null){
+            if(fusedLocationClient != null){
                 fusedLocationClient?.lastLocation?.addOnCompleteListener {
-                    if(it.result!=null) {
+                    if(it.result != null) {
                         val latlng = LatLng(
                             it.result.latitude,
                             it.result.longitude

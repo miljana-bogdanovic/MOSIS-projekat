@@ -13,6 +13,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.mosis.partyplaces.databinding.ActivityMainBinding
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
 
@@ -114,6 +117,8 @@ class MainActivity : AppCompatActivity() {
                 .putString("User", u.toJSON())
                 .commit()
         }
+
+        Firebase.messaging.subscribeToTopic("testing")
     }
 
     override fun onSupportNavigateUp(): Boolean {

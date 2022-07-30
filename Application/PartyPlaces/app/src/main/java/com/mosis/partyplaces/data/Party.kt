@@ -11,5 +11,6 @@ data class Party(var name : String,
                  var end : Time,
                  var location : GeoPoint,
                  var organizer : User,
+                 var uid : String = "",
                  var guests : MutableMap<String, User> = mutableMapOf()){
 }

@@ -66,7 +66,7 @@ class CreatePartyFragment : Fragment() {
         }
         _binding.editTextEndTime.setOnClickListener {
             timeClicked(it, "end"){ tp ->
-                _binding.editTextStartTime.setText("${ tp.hour }:${ tp.minute }")
+                _binding.editTextEndTime.setText("${ tp.hour }:${ tp.minute }")
             }
         }
         _binding.editTextLocation.setOnClickListener { locationClicked(it) }
@@ -232,7 +232,6 @@ class CreatePartyFragment : Fragment() {
         }
 
         dialog.findViewById<Button>(R.id.map_select_button).setOnClickListener {
-            Toast.makeText(requireActivity(), "Location selected!", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
             _binding.editTextLocation.setText(address)
         }
