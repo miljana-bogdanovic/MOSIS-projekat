@@ -3,7 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
-
     <string name="welcome_fragment_label">Welcome</string>
     <string name="login_fragment_label">Login</string>
     <string name="register_fragment_label">Register</string>
@@ -73,4 +72,12 @@
     <string name="party_location_label">Location</string>
     <string name="party_name_label">Name</string>
     <string name="no_parties">No Parties Yet :(</string>
+    <string name="notification_new_party">new-party</string>
+    <string name="notification_friend_request_sent">friend-request-sent</string>
+    <string name="notification_friend_request_accepted">friend-request-accepted</string>
+    <string name="notification_comming_to_party">comming-to-party</string>
+    <string name="notification_guest_arrived">guest-arrived</string>
+    <string name="notification_new_party_label">New party!</string>
+    <string name="new_party_details">Details</string>
+    <string name="username">username</string>
 </resources>

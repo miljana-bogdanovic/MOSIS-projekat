@@ -1,12 +1,14 @@
-package com.mosis.partyplaces
+package com.mosis.partyplaces.activities
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,10 +16,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
+import com.mosis.partyplaces.R
+import com.mosis.partyplaces.data.DatabaseUtilities
 import com.mosis.partyplaces.databinding.ActivityMainBinding
 import com.mosis.partyplaces.viewmodels.LoggedUserViewModel
+import java.text.SimpleDateFormat
 
 
 class MainActivity : AppCompatActivity() {
@@ -118,7 +122,11 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
-        Firebase.messaging.subscribeToTopic("testing")
+        setUpNotifications()
+    }
+
+    private fun setUpNotifications(){
+        Firebase.messaging.subscribeToTopic("new-party-yRJFxREp4wchWX75tsIlWtdxSqs1")
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/purple_200_see_through"/>
+    <corners android:radius="25dp"/>
+    <stroke android:color="@android:color/transparent" android:width="30dp" />
+</shape>

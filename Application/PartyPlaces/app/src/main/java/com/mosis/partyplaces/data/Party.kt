@@ -48,5 +48,5 @@ data class Party(
     @Expose
     var score : Double = .0,
     @Transient
-    var guests : MutableMap<String, UserLite> = mutableMapOf()){
+    var guests : MutableMap<String, UserLite> = mutableMapOf()) :JSONConvertable{
 }

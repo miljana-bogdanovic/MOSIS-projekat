@@ -175,6 +175,10 @@ class CreatePartyFragment : Fragment() {
                     pDialog.hide()
                     clearContents()
                     Toast.makeText(requireActivity(), "Created '${p.name}' party!", Toast.LENGTH_LONG).show()
+                    loggedUser.user!!.apply {
+                        partyNo++
+                        parties.add(p.id)
+                    }
                     findNavController().navigate(R.id.action_CreateParty_To_Maps)
                 },
                 { e->

@@ -226,19 +226,7 @@ object DatabaseUtilities {
             .set(p)
             .addOnSuccessListener { _ ->
                 Log.d("Save-Party", "Success: '${ p.id }'")
-                updateUser(
-                    p.organizer.id,
-                    mutableMapOf(
-                        "partyNo" to FieldValue.increment(1)),
-                    {
-                        Log.d("Save-Party", "Success: Update User '${ p.organizer.id }'")
-                        successCallback(p)
-                    },
-                    {
-                        Log.e("Save-Party", "Failed: Update User '${ p.organizer.id }'")
-                        Log.e("Save-Party", it.stackTraceToString())
-                        successCallback(p)
-                    })
+                successCallback(p)
             }
             .addOnFailureListener{
                 Log.e("Save-Party", "Failed: ${ p.name }-${ p.theme }")
